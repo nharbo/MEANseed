@@ -1,0 +1,22 @@
+<h1>{{message}}</h1>
+
+<ul ng-repeat="name in names">
+    <li>{{name.name}}</li>
+</ul>
+
+<a href="#/hellos">CLICK HERE FOR HELLOS, TO SEE TOKEN IS WORKING. lyl</a>
+
+
+<button ng-click="logout()">Log out/kill token</button>
+
+<h4>If logged in with facebook, info will be here:</h4>
+ID: {{user.id}}<br/>
+Username: {{user.username}}<br/>
+Name: {{user.displayName}}<br/>
+Friends: {{user._json.friends.summary.total_count}}><br/>
+Birthday: {{user._json.birthday}}<br/>
+<!--<% if (user.emails) { %>-->
+<!--Email: <%= user.emails[0].value %><br/>-->
+<!--<% } %>-->
+
+<h1>{{info}}</h1>
