@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var passport = require('passport');
+
 var User = require('../model/userSchema');
 
 // create a new user account (POST http://localhost:5000/api/user/signup)
@@ -23,5 +25,6 @@ router.post('/signup', function(req, res) {
         });
     }
 });
+
 
 module.exports = router;

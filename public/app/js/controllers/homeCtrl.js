@@ -7,7 +7,7 @@ angular.module('App')
         $scope.message = "hello from home controller";
 
         $scope.logout = function(){
-            $window.sessionStorage.token = "undefined";
+            delete $window.sessionStorage.token;
             $location.path( "/" );
         };
 

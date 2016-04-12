@@ -3,15 +3,12 @@ var router = express.Router();
 var jwt = require('jwt-simple');
 var User = require('../model/userSchema');
 var passport = require('passport');
-var Strategy = require('passport-facebook').Strategy;
 
 const jwtConfig = require('../configurations/jwtConfig').jwtConfig;
 
 //local strategy, gives you a token.
 router.post('/authenticate', function (req, res) {
-    User.findOne({
-        userName: req.body.userName
-    }, function (err, user) {
+    User.findOne({userName: req.body.userName}, function (err, user) {
         if (err) throw err;
         if (!user) {
             res.status(401).send({msg: 'Authentication failed. User not found.'});
@@ -47,13 +44,13 @@ router.post('/authenticate', function (req, res) {
 });
 
 //localhost:3000/api/auth/login/facebook
-router.get('/login/facebook',
-    passport.authenticate('facebook', {scope: 'public_profile,email,user_friends,user_birthday'})); //her sættes ind hvad man ønsker retur.
+router.get('/login/facebook', passport.authenticate('facebook', {scope: 'public_profile,email,user_friends,user_birthday'})); //her sættes ind hvad man ønsker retur.
 
 router.get('/login/facebook/return',
-    passport.authenticate('facebook', {failureRedirect: '/login'}),
+    passport.authenticate('facebook'),
     function (req, res) {
-        res.redirect('/');
+        console.log("in facebook return!");
+        console.log(res);
     });
 
 module.exports = router;
