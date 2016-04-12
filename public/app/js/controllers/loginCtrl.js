@@ -31,10 +31,10 @@ angular.module('App')
 
         $scope.loginFacebook = function () {
 
-            $http.get("api/auth/login/facebook")
+            $http.get("http://localhost:5000/api/auth/login/facebook")
                 .success(function (response) {
                     console.log("Success in facebooklogin");
-                    $scope.userData = response;
+                    //$scope.userData = response;
                 }).error(function (response) {
                     console.log("failed facebook login!")
             });

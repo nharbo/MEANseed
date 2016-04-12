@@ -50,7 +50,8 @@ router.get('/login/facebook/return',
     passport.authenticate('facebook'),
     function (req, res) {
         console.log("in facebook return!");
-        console.log(res);
+        //console.log(res.user);
+        res.redirect('/#home'/*, { user: req.user }*/)
     });
 
 module.exports = router;
