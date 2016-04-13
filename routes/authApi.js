@@ -43,15 +43,24 @@ router.post('/authenticate', function (req, res) {
 
 });
 
-//localhost:3000/api/auth/login/facebook
-router.get('/login/facebook', passport.authenticate('facebook', {scope: 'public_profile,email,user_friends,user_birthday'})); //her sættes ind hvad man ønsker retur.
 
-router.get('/login/facebook/return',
-    passport.authenticate('facebook'),
+
+//FACEBOOK LOGIN, localhost:5000/api/auth/login/facebook
+router.post('/login/facebook', passport.authenticate('facebook', {scope: 'public_profile,email,user_friends,user_birthday'})); //her sættes ind hvad man ønsker retur.
+
+
+//Facebook kalder denne, med data som vi har requested.
+router.get('/login/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/#' }),
     function (req, res) {
+        //res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+        //res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        //res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        //res.header('Access-Control-Allow-Credentials', 'true');
         console.log("in facebook return!");
-        //console.log(res.user);
-        res.redirect('/#home'/*, { user: req.user }*/)
+        console.log(req.user);
+        //req.url = "/home";
+        //res.redirect('/#home'/*, { user: req.user }*/)
     });
 
 module.exports = router;

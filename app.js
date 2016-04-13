@@ -21,6 +21,13 @@ var authApi = require('./routes/authApi');
 
 var app = express();
 
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -75,7 +82,6 @@ app.use(express.static(path.join(__dirname, 'public/app'))); //kigger efter file
 
 //Opretter forbindelse til db
 var db = require('./configurations/mongoose');
-
 
 //Redirection to index.html
 app.use('/', routes);
