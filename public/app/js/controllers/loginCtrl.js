@@ -2,7 +2,7 @@
 
 angular.module('App')
 
-    .controller('loginCtrl', ["$scope", "$http", "$sanitize", "$location", "$window", "$auth", function ($scope, $http, $sanitize, $location, $window, $auth) {
+    .controller('loginCtrl', ["$scope", "$http", "$sanitize", "$location", "$window", function ($scope, $http, $sanitize, $location, $window) {
 
         $scope.message = "hello from login controller";
 
@@ -29,20 +29,13 @@ angular.module('App')
             })
         };
 
-        $scope.authenticate = function(provider) {
-            $auth.authenticate(provider).then(function(res){
-                console.log(res.data);
-            });
-        };
-
         //$scope.loginFacebook = function () {
         //
-        //
-        //    $http.get("http://localhost:5000/api/auth/login/facebook")
-        //        .success(function (response) {
+        //    $http.get("/api/auth/login/facebook")
+        //        .success(function (data) {
         //            console.log("Success in facebooklogin");
-        //            //$scope.userData = response;
-        //        }).error(function (response) {
+        //            $scope.token = data.token;
+        //        }).error(function (data) {
         //            console.log("failed facebook login!")
         //    });
         //};

@@ -34,7 +34,7 @@ module.exports = function (passport) { //passport bliver sendt med ude fra app.j
             callbackURL: 'http://localhost:5000/api/auth/login/facebook/callback',
             profileFields: ['id', 'email', 'birthday', 'displayName', 'friends'] //Hvad vi vil have retur...
         },
-        function (accessToken, refreshToken, profile, cb) {
+        function (accessToken, refreshToken, profile, done) {
 
             process.nextTick(function () {
 
@@ -43,34 +43,38 @@ module.exports = function (passport) { //passport bliver sendt med ude fra app.j
                 //// be associated with a user record in the application's database, which
                 //// allows for account linking and authentication with other identity
                 //// providers.
-                return cb(null, {profile: profile, accessToken : accessToken});
+                //return cb(null, {profile: profile, accessToken : accessToken});
 
-                ////Vi kigger efter brugeren i db.
-                //User.findOne({'facebook.id': profile.id}, function (err, user) {
-                //    if (err) {
-                //        //Hvis der sker en fejl.
-                //        return done(err);
-                //    }
-                //    //Hvis brugeren findes, returneres den.
-                //    if (user) {
-                //        return done(null, user);
-                //        //Hvis ikke brugeren findes, oprettese denne.
-                //    } else {
-                //        var newUser = new User();
-                //        newUser.facebook.id = profile.id;
-                //        newUser.facebook.token = accessToken;
-                //        newUser.facebook.name = profile.name.givenName + profile.name.familyName;
-                //        newUser.facebook.email = profile.emails[0].value;
-                //
-                //        newUser.save(function (err) {
-                //            if (err) {
-                //                throw err;
-                //            } else {
-                //                return done(null, user);
-                //            }
-                //        })
-                //    }
-                //});
+                //Vi kigger efter brugeren i db.
+                User.findOne({'facebook.id': profile.id}, function (err, user) {
+                    if (err) {
+                        //Hvis der sker en fejl.
+                        return done(err);
+                    }
+                    //Hvis brugeren findes, returneres den.
+                    if (user) {
+                        return done(null, user);
+                        //Hvis ikke brugeren findes, oprettese denne.
+                    } else {
+                        var newUser = new User();
+                        newUser.local.userName = "FacebookUser"+profile.id;
+                        newUser.local.password = profile.id;
+                        newUser.facebook.id = profile.id;
+                        newUser.facebook.token = accessToken;
+                        newUser.facebook.name = profile.displayName;
+                        newUser.facebook.email = profile.emails[0].value;
+
+                        console.log(newUser);
+
+                        newUser.save(function (err) {
+                            if (err) {
+                                throw err;
+                            } else {
+                                return done(null, user);
+                            }
+                        })
+                    }
+                });
             });
         }));
 

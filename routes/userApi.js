@@ -5,7 +5,7 @@ var passport = require('passport');
 
 var User = require('../model/userSchema');
 
-// create a new user account (POST http://localhost:5000/api/user/signup)
+// create a new local user account (POST http://localhost:5000/api/user/signup)
 router.post('/signup', function(req, res) {
     console.log(req.body.userName + " - " + req.body.password);
 

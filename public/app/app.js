@@ -2,20 +2,10 @@
 
 angular.module('App', [
         'ngSanitize',
-        'ngRoute',
-        'satellizer'
+        'ngRoute'
     ])
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('authInterceptor');
-    })
-    .config(function ($authProvider) {
-        // Optional: For client-side use (Implicit Grant), set responseType to 'token'
-        $authProvider.facebook({
-            clientId: '600121516807390',
-            responseType: 'token',
-            redirectUri: 'http://localhost:5000/#/home'
-        });
-        //$authProvider.withCredentials = false;
     })
     .config(['$routeProvider', function ($routeProvider) {
 
