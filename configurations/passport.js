@@ -70,6 +70,7 @@ module.exports = function (passport) { //passport bliver sendt med ude fra app.j
                             if (err) {
                                 throw err;
                             } else {
+                                //Hvis ingen fejl i db-kald, returneres useren vi har bedt om, med de parametre som vi har gemt i db.
                                 return done(null, user);
                             }
                         })
