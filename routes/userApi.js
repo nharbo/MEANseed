@@ -12,13 +12,17 @@ router.post('/signup', function(req, res) {
     if (!req.body.userName || !req.body.password) {
         res.json({success: false, msg: 'Please enter username and password.'});
     } else {
-        var newUser = new User({
-            userName: req.body.userName,
-            password: req.body.password
-        });
+        console.log("USERNAME: "+ req.body.userName);
+        console.log("PASSWORD: "+ req.body.password);
+
+        var newUser = new User();
+        newUser.local.password = req.body.password;
+        newUser.local.userName = req.body.userName;
+
         // save the user
         newUser.save(function(err) {
             if (err) {
+                console.log(err);
                 return res.json({success: false, msg: 'Username already exists.'});
             }
             res.json({success: true, msg: 'Successful created new user.'});

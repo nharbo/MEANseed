@@ -8,25 +8,25 @@ const jwtConfig = require('../configurations/jwtConfig').jwtConfig;
 
 //local strategy, gives you a token.
 router.post('/authenticate', function (req, res) {
-    User.findOne({userName: req.body.userName}, function (err, user) {
+    User.findOne({userName: req.body.userName}, function (err, user) { //Tjekker efter user
         if (err) throw err;
-        if (!user) {
+        if (!user) { //Hvis user ikke findes
             res.status(401).send({msg: 'Authentication failed. User not found.'});
-        } else {
-            user.comparePassword(req.body.password, function (err, isMatch) {
+        } else { //hvis user fidnes
+            user.comparePassword(req.body.password, function (err, isMatch) { //Hvis password passer
                 if (isMatch && !err) { // if user is found and password is right create a token
 
                     //Her laves et token til useren.
-                    var iat = new Date().getTime() / 1000; // convert to seconds
+                    var iat = new Date().getTime() / 1000; // convert to seconds - hvornår token udstedes
 
-                    var exp = iat + jwtConfig.tokenExpirationTime;
+                    var exp = iat + jwtConfig.tokenExpirationTime; // hvornår det udløber
 
                     var payload = {
-                        aud: jwtConfig.audience,
-                        iss: jwtConfig.issuer,
-                        iat: iat,
-                        exp: exp,
-                        sub: user.userName
+                        aud: jwtConfig.audience, //hvem skal modtage token (websitet eksempelvis)
+                        iss: jwtConfig.issuer, //hvem udsteder token
+                        iat: iat, //isued at - hvornår er token givet
+                        exp: exp, //Expirering in...
+                        sub: user.userName //hvem skal bruge token
                     };
 
                     var token = jwt.encode(payload, jwtConfig.secret);
@@ -34,7 +34,7 @@ router.post('/authenticate', function (req, res) {
                     // return the information including token as JSON
                     res.json({token: 'JWT ' + token});
 
-                } else {
+                } else { //Hvis password ikke passer
                     res.status(401).send({msg: 'Authentication failed. Wrong password.'});
                 }
             });

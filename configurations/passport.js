@@ -49,13 +49,17 @@ module.exports = function (passport) { //passport bliver sendt med ude fra app.j
                 User.findOne({'facebook.id': profile.id}, function (err, user) {
                     if (err) {
                         //Hvis der sker en fejl.
+                        console.log("ERROR IN LOOKING UP FACEBOOK!");
+                        console.log(err);
                         return done(err);
                     }
                     //Hvis brugeren findes, returneres den.
                     if (user) {
+                        console.log("FACEBOOK USER FOUND");
                         return done(null, user);
                         //Hvis ikke brugeren findes, oprettese denne.
                     } else {
+                        console.log("CREATING NEW FACEBOOK USER");
                         var newUser = new User();
                         newUser.local.userName = "FacebookUser"+profile.id;
                         newUser.local.password = profile.id;
@@ -64,12 +68,14 @@ module.exports = function (passport) { //passport bliver sendt med ude fra app.j
                         newUser.facebook.name = profile.displayName;
                         newUser.facebook.email = profile.emails[0].value;
 
-                        console.log(newUser);
+                        console.log("NEW USER: " + newUser);
 
                         newUser.save(function (err) {
                             if (err) {
+                                console.log(err);
                                 throw err;
                             } else {
+                                //Hvis ingen fejl i db-kald, returneres useren vi har bedt om, med de parametre som vi har gemt i db.
                                 return done(null, user);
                             }
                         })

@@ -56,21 +56,14 @@ app.use(function (req, res, next) {
 });
 
 app.set('trust proxy', 1); // trust first proxy
-app.use(session({ //cookien får et andet navn, end standardnavnet.
-        secret: 'h1dd3n_s3cr37_y0',
-        name: 'c00ki3_l0l'
-    })
-);
 
 var expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1hour
 app.use(session({
+        secret: 'h1dd3n_s3cr37_y0',
         name: 'session',
-        keys: ['key1', 'key2'],
         cookie: {
             secure: true, //Ensures the browser only sends the cookie over HTTPS.
             httpOnly: true, //Ensures the cookie is sent only over HTTP(S), not client JavaScript, helping to protect against cross-site scripting attacks.
-            domain: 'example.com', //indicates the domain of the cookie
-            path: 'foo/bar', //indicates the path of the cookie
             expires: expiryDate //use to set expiration date for persistent cookies.
         }
     })
