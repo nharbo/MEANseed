@@ -8,11 +8,11 @@ const jwtConfig = require('../configurations/jwtConfig').jwtConfig;
 
 //local strategy, gives you a token.
 router.post('/authenticate', function (req, res) {
-    User.findOne({userName: req.body.userName}, function (err, user) { //Tjekker efter user
+    User.findOne({"local.userName": req.body.userName}, function (err, user) { //Tjekker efter user
         if (err) throw err;
         if (!user) { //Hvis user ikke findes
             res.status(401).send({msg: 'Authentication failed. User not found.'});
-        } else { //hvis user fidnes
+        } else { //hvis user findes
             user.comparePassword(req.body.password, function (err, isMatch) { //Hvis password passer
                 if (isMatch && !err) { // if user is found and password is right create a token
 

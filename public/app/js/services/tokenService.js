@@ -6,7 +6,7 @@ angular.module('App')
         request: function (config) {
             config.headers = config.headers || {};
             if ($window.sessionStorage.token) {
-                config.headers.Authorization = $window.sessionStorage.token;
+                config.headers.Authorization = $window.sessionStorage.token; //token sendes med i Header for hvert request.
             }
             return config;
         },
